@@ -26,7 +26,8 @@ class AxesTests(TestCase):
 
     @override_settings(INSTALLED_APPS=['axes'])
     def test_no_error_when_access_installed(self):
-        self.assertEqual(0, len(check_axes_config(None)))
+        errors = check_axes_config(None)
+        self.assertEqual(0, len(errors), errors)
 
     @override_settings(INSTALLED_APPS=['axes'], AUTHENTICATION_BACKENDS=['django.contrib.auth.backends.ModelBackend'])
     def test_authentication_backend_contains_axes(self):

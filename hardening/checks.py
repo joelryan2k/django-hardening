@@ -77,7 +77,7 @@ def check_csp_config(app_configs, **kwargs):
             )
         )
 
-    if not settings.CSP_FRAME_ANCESTORS:
+    if not hasattr(settings, 'CSP_FRAME_ANCESTORS') or not settings.CSP_FRAME_ANCESTORS:
         errors.append(
             Error(
                 'CSP_FRAME_ANCESTORS must be True',

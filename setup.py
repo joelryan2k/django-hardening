@@ -6,6 +6,10 @@ setup(name="djangohardening",
     author='Joel Ryan',
     author_email='joel@iwcenter.com',
     packages=['hardening'],
-    install_requires=["django>=2.2"],
+    install_requires=[
+        "django>=2.2",
+        "django-axes==5.4.3",
+        "django-csp==3.6"
+    ],
     python_requires=">=3.5",
 )
