@@ -5,20 +5,6 @@ from django.conf import settings
 from django.shortcuts import reverse
 from django.urls.exceptions import NoReverseMatch
 
-@register()
-def check_auto_configure(app_configs, **kwargs):
-    errors = []
-    
-    if not getattr(settings, 'HARDENING_AUTOCONFIGURE_COMPLETE'):
-        errors.append(
-            Error(
-                'Hardening autoconfigure not setup',
-                hint='Call hardening.autoconfigure.setup(__locals__) at the end of settings.py',
-                obj=None,
-                id='hardening.E020',
-            )
-        )
-
 
 @register()
 def check_axes_config(app_configs, **kwargs):
@@ -114,27 +100,6 @@ def check_csp_config(app_configs, **kwargs):
             )
         )
 
-    csp_report_url = reverse('hardening:csp-report')
-
-    if not hasattr(settings, 'CSP_REPORT_URI') or settings.CSP_REPORT_URI != csp_report_url:
-        errors.append(
-            Error(
-                'CSP_REPORT_URI must be csp-report url',
-                hint='Set CSP_REPORT_URI in settings.py',
-                obj=None,
-                id='hardening.E018',
-            )
-        )
-
-    if not hasattr(settings, 'CSP_REPORT_TO') or settings.CSP_REPORT_TO != csp_report_url:
-        errors.append(
-            Error(
-                'CSP_REPORT_TO must be csp-report url',
-                hint='Set CSP_REPORT_TO in settings.py',
-                obj=None,
-                id='hardening.E019',
-            )
-        )
     return errors
 
 @register()

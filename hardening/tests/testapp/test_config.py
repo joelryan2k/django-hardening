@@ -47,11 +47,3 @@ class CspTests(BaseTestCase):
     @override_settings(INSTALLED_APPS=['csp'], MIDDLEWARE=[])
     def test_checks_middleware(self):
         self.assert_has_error(check_csp_config(None), 'hardening.E006')
-
-    @override_settings(INSTALLED_APPS=['csp'], CSP_REPORT_URI='xyz')
-    def test_checks_csp_report_url(self):
-        self.assert_has_error(check_csp_config(None), 'hardening.E018')
-
-    @override_settings(INSTALLED_APPS=['csp'], CSP_REPORT_TO='xyz')
-    def test_checks_csp_report_to(self):
-        self.assert_has_error(check_csp_config(None), 'hardening.E019')

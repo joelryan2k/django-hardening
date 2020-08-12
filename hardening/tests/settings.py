@@ -39,5 +39,6 @@ AUTHENTICATION_BACKENDS = [
 
 ROOT_URLCONF = 'urls'
 
-from hardening import autoconfigure
-autoconfigure.setup(locals())
+AXES_META_PRECEDENCE_ORDER = [
+    "HTTP_X_FORWARDED_FOR",
+]
