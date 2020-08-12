@@ -49,6 +49,16 @@ def check_axes_config(app_configs, **kwargs):
             )
         )
 
+    if not hasattr(settings, 'AXES_META_PRECEDENCE_ORDER') or settings.AXES_META_PRECEDENCE_ORDER != ['HTTP_X_FORWARDED_FOR']:
+        errors.append(
+            Error(
+                'AXES_META_PRECEDENCE_ORDER must be set to HTTP_X_FORWARDED_FOR',
+                hint='Add AXES_META_PRECEDENCE_ORDER to your settings',
+                obj=None,
+                id='hardening.E017',
+            )
+        )
+
     return errors
 
 @register()
