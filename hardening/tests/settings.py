@@ -36,3 +36,8 @@ AUTHENTICATION_BACKENDS = [
     "axes.backends.AxesBackend",
     "django.contrib.auth.backends.ModelBackend",
 ]
+
+ROOT_URLCONF = 'urls'
+
+from hardening import autoconfigure
+autoconfigure.setup(locals())

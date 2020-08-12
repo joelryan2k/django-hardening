@@ -10,11 +10,12 @@ class MockGetDistributionResponse:
     def __init__(self, version):
         self.version = version
 
-class AxesTests(TestCase):
+class BaseTestCase(TestCase):
     def assert_has_error(self, errors, error_id):
         error_ids = [e.id for e in errors]
-        self.assertTrue(error_id in error_ids)
+        self.assertTrue(error_id in error_ids, 'Excepted to find "{0}", but got "{1}" instead'.format(error_id, ','.join(error_ids)))
 
+class AxesTests(BaseTestCase):
     @patch('pkg_resources.get_distribution')
     def test_checks_version(self, mock_get_distribution):
         mock_get_distribution.return_value = MockGetDistributionResponse('5.4.2')
@@ -37,11 +38,7 @@ class AxesTests(TestCase):
     def test_checks_middleware(self):
         self.assert_has_error(check_axes_config(None), 'hardening.E003')
 
-class CspTests(TestCase):
-    def assert_has_error(self, errors, error_id):
-        error_ids = [e.id for e in errors]
-        self.assertTrue(error_id in error_ids)
-
+class CspTests(BaseTestCase):
     @patch('pkg_resources.get_distribution')
     def test_checks_version(self, mock_get_distribution):
         mock_get_distribution.return_value = MockGetDistributionResponse('3.5')
@@ -50,3 +47,11 @@ class CspTests(TestCase):
     @override_settings(INSTALLED_APPS=['csp'], MIDDLEWARE=[])
     def test_checks_middleware(self):
         self.assert_has_error(check_csp_config(None), 'hardening.E006')
+
+    @override_settings(INSTALLED_APPS=['csp'], CSP_REPORT_URI='xyz')
+    def test_checks_csp_report_url(self):
+        self.assert_has_error(check_csp_config(None), 'hardening.E018')
+
+    @override_settings(INSTALLED_APPS=['csp'], CSP_REPORT_TO='xyz')
+    def test_checks_csp_report_to(self):
+        self.assert_has_error(check_csp_config(None), 'hardening.E019')
