@@ -1,6 +1,6 @@
 from setuptools import setup
 
-setup(name="djangohardening",
+setup(name="django-hardening",
     version='1.0.0',
     description='Hardening system checks for Django',
     author='Joel Ryan',
